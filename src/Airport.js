@@ -1,6 +1,9 @@
 var Airport = function(weather = new Weather() ){this.planes = [], this.weather = weather};
 
 Airport.prototype.land = function(plane) {
+  if (this.weather.forecast() == 'stormy') {
+    throw new Error( "Too stormy to land");
+  }
   this.planes.push(plane);
 };
 

@@ -12,6 +12,7 @@ describe('Airport', function(){
   });
 
   it('allows plane to land', function(){
+    spyOn(weather, 'forecast').and.returnValue('sunny');
     airport.land(plane);
     expect(airport.planes).toContain(plane)
   });
@@ -24,9 +25,16 @@ describe('Airport', function(){
   });
 
   it('raises error if plane tries to take off in storm', function(){
+  
     spyOn(weather, 'forecast').and.returnValue('stormy');
-    airport.land(plane);
+    airport.planes = [plane];
     expect(function(){
       airport.takeoff(plane)}).toThrowError("Too stormy to take off");
+  });
+
+  it('raises error if plane tries to land in storm', function(){
+    spyOn(weather, 'forecast').and.returnValue('stormy');
+    expect(function(){
+      airport.land(plane)}).toThrowError("Too stormy to land");
   });
 });
